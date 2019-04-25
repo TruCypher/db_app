@@ -89,7 +89,7 @@ public class App
                System.out.println("SQLState: " + ex.getSQLState());    
                System.out.println("VendorError: " + ex.getErrorCode());
             } catch (Exception e) {
-            	e.printStackTrace();
+            	System.out.println("table doesn't exist return to the main application");
             }
         }
     }
@@ -125,7 +125,6 @@ public class App
 			} catch (SQLException e) {
 				
 				System.out.println("insert fail unable to insert the given data to the database");
-//				e.printStackTrace();
 			}
     	} 
     	else if (table.equals("EMPLOYEE")) 
@@ -137,15 +136,66 @@ public class App
     		System.out.print("please enter rank of employee: ");
     		String rank = kb.next();
     		
-    		//+String sql
+    		String sql = "INSERT INTO EMPLOYEE (e_fName, e_lName, e_rank) VALUES " 
+    				+ "('"+fName+"','"+lName+"','"+rank+"')";
+    		
+    		System.out.println();
+    		try {
+    			stmt.executeUpdate(sql);
+    			System.out.println("insert to employee successfully returning to the main app");
+    		} catch (SQLException e)
+    		{
+    			System.out.println("insertion failed returning to the main app");
+    		}
     		
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
+    		System.out.print("please enter client id: ");
+    		int c_id = kb.nextInt();
+    		System.out.print("please enter shoe id: ");
+    		int s_id = kb.nextInt();
+    		System.out.print("please enter day client purchased: ");
+    		String p_dayPurchase = kb.next();
+    		System.out.print("please enter wheter or not the client return format: (true|false): ");
+    		String returned = kb.next();
+    		
+    		String sql = "INSERT INTO PURCHASE (c_id, s_id, p_dayPurchase, p_return) VALUES "+
+    		"("+c_id+","+s_id+",'"+p_dayPurchase+"','"+returned+"')";
+    		
+    		try {
+    			stmt.executeUpdate(sql);
+    			System.out.println("insert to purchase successfully returning to the main app");
+    		}	catch (SQLException e)
+    		{
+    			System.out.println("insertion failed returning to the main app");
+    		}
+    		
     		
     	} else //SHOES
     	{
     		
+    		System.out.print("please enter the quantity of shoes: ");
+    		int quan = kb.nextInt();
+    		System.out.print("please enter the internet rating format(1-10): ");
+    		int rate = kb.nextInt();
+    		System.out.print("please enter the shoe's brand name: ");
+    		String brand = kb.next();
+    		System.out.print("please enter the price of the shoe: ");
+    		double price = kb.nextDouble();
+    		
+    		String sql = "INSERT INTO SHOES (s_quantity, s_rate, s_brandName, s_price) " + 
+    				"VALUES ("+quan+","+rate+",'"+brand+"',"+price+")";
+    		
+    		System.out.println();
+    		try {
+    			stmt.executeUpdate(sql);
+    			System.out.println("insert to shoes successfully returning to the main app");
+    		}	catch (SQLException e)
+    		{
+    			System.out.println("insertion failed returning to the main app");
+    		}
+    			
     	}
     }
     
@@ -191,11 +241,54 @@ public class App
     {
     	if(table.equals("CLIENT"))
     	{
-    		
+    		String sql = "SELECT * FROM CLIENT";
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("---------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %10s %10s %10s %10s %10s %10s", "c_id", "c_fName", "c_lName", "# Shoes", "day_joined","c_loyal" ,"e_id");
+			    System.out.println();
+			    System.out.println("---------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %10s %10s %10s %10s %10s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString(),rs.getObject(6).toString(),
+							rs.getObject(7).toString());
+					
+					System.out.println();
+				}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
     	} 
     	else if (table.equals("EMPLOYEE")) 
     	{
-    		
+    		String sql = "SELECT * FROM EMPLOYEE";
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("---------------------------------------------------------------------------------------------------");
+			    System.out.printf("%20s %20s %20s %20s", "e_id", "e_fName", "e_lName", "e_rank");
+			    System.out.println();
+			    System.out.println("---------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%20s %20s %20s %20s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString());
+					
+					System.out.println();
+				}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
