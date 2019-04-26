@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class App 
 {
-	static Statement stmt;
-	static ResultSet rs;
-	static Scanner kb;
-	static Connection conn = null;
-	static ArrayList<String> tableName;
+	private static Statement stmt;
+	private static ResultSet rs;
+	private static Scanner kb;
+	private static Connection conn = null;
+	private static ArrayList<String> tableName;
 	
 	
     public static void main( String[] args )
@@ -62,6 +62,7 @@ public class App
     		   System.out.println("6. Skip This Step");
     		   
     		   int option = kb.nextInt();
+    		   System.out.println();
                switch(option)
                {
                		case 1:
@@ -89,6 +90,7 @@ public class App
                System.out.println("SQLState: " + ex.getSQLState());    
                System.out.println("VendorError: " + ex.getErrorCode());
             } catch (Exception e) {
+            	e.printStackTrace();
             	System.out.println("table doesn't exist return to the main application");
             }
         }
@@ -222,18 +224,260 @@ public class App
     {
     	if(table.equals("CLIENT"))
     	{
+    		try 
+    		{
+    			System.out.print("press 1 so delete by client id, 2 for first name, and 3 for last name || or press -1 to cancle ");
+        		int option = kb.nextInt();
+        		System.out.println();
+        		if(option == -1) { return; }
+        		
+        		if(option == 1) 
+        		{
+        			System.out.print("please provide client's client id you want to delete: ");
+        			int key = kb.nextInt();
+        			try 
+        			{
+            			String sql = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_id` = "+key;
+            			int affected = stmt.executeUpdate(sql);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete id "+key);
+            			} else {
+            				System.out.println("client id was not found, returning to the main application");
+            			}
+        			} catch (SQLException e)
+        			{
+        				clearForeignKey("SELECT c_id FROM CLIENT WHERE c_id ="+key);
+        				String sql = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_id` = "+key;
+            			int affected = stmt.executeUpdate(sql);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete id "+key);
+            			} else {
+            				System.out.println("client id was not found, returning to the main application");
+            			}
+        			}
+        			
+        			
+        		} 
+        		if(option == 2)
+        		{
+        			System.out.print("please provide client's first Name you want to delete: ");
+        			String key = kb.next();
+        			try {
+            			String sql = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_fName` LIKE '%"+key+"%'";
+            			int affected = stmt.executeUpdate(sql);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete "+ key);
+            			} else {
+            				System.out.println("client firstName was not found");
+            			}
+        			} catch (SQLException e) {
+        				
+        				clearForeignKey("SELECT c_id FROM CLIENT WHERE c_fName LIKE '%"+key+"%'");
+        				
+        				String sqls = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_fName` LIKE '%"+key+"%'";
+            			int affected = stmt.executeUpdate(sqls);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete "+ key);
+            			} else {
+            				System.out.println("client firstName was not found");
+            			}
+        				
+        			}
+        		}
+        		if(option == 3)
+        		{
+        			System.out.print("please provide client's last Name you want to delete: ");
+        			String key = kb.next();
+        			try {
+            			String sql = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_lName` LIKE '%"+key+"%'";
+            			int affected = stmt.executeUpdate(sql);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete "+ key);
+            			} else {
+            				System.out.println("client last name was not found");
+            			}
+        			} catch (SQLException e) {
+        				
+        				clearForeignKey("SELECT c_id FROM CLIENT WHERE c_lName LIKE '%"+key+"%'");
+        				
+        				String sqls = "DELETE FROM `CLIENT` WHERE `CLIENT`.`c_lName` LIKE '%"+key+"%'";
+            			int affected = stmt.executeUpdate(sqls);
+            			if(affected > 0)
+            			{
+            				System.out.println("successfully delete "+ key);
+            			} else {
+            				System.out.println("client last name was not found");
+            			}
+        				
+        			}
+        		}
+        		
+    		} catch (SQLException e)
+    		{
+    			System.out.print("the client doesn't exist in the table ");
+    			System.out.println("returning to the main application");
+    			e.printStackTrace();
+    		}
     		
     	} 
     	else if (table.equals("EMPLOYEE")) 
     	{
-    		
+    		System.out.print("press 1 so delete by employee id, 2 for first name, and 3 for last name || or press -1 to cancle ");
+			int option = kb.nextInt();
+			System.out.println();
+			if(option == -1) { return; }
+			
+			if(option == 1) 
+			{
+				System.out.print("please provide employee's id you want to delete: ");
+				int key = kb.nextInt();
+				try 
+				{
+					String sql = "DELETE FROM `EMPLOYEE` WHERE `EMPLOYEE`.`e_id` = "+key;
+					int affected = stmt.executeUpdate(sql);
+					if(affected > 0)
+					{
+						System.out.println("successfully delete id "+key);
+					} else {
+						System.out.println("employee id was not found, returning to the main application");
+					}
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+					System.out.print("this employee can't be remove ");
+					System.out.print("we don't want our client to be remove, returning to main application...");
+				}
+				
+				
+			} 
+			if(option == 2)
+			{
+				System.out.print("please provide employee's first Name you want to delete: ");
+				String key = kb.next();
+				try {
+					String sql = "DELETE FROM `EMPLOYEE` WHERE `EMPLOYEE`.`e_fName` LIKE '%"+key+"%'";
+					int affected = stmt.executeUpdate(sql);
+					if(affected > 0)
+					{
+						System.out.println("successfully delete "+ key);
+					} else {
+						System.out.println("employee firstName was not found");
+					}
+				} catch (SQLException e) {
+					System.out.print("this employee can't be remove ");
+					System.out.print("we don't want our client to be remove, returning to main application...");
+				}
+			}
+			if(option == 3)
+			{
+				System.out.print("please provide employee's last Name you want to delete: ");
+				String key = kb.next();
+				try {
+					String sql = "DELETE FROM `EMPLOYEE` WHERE `EMPLOYEE`.`e_lName` LIKE '%"+key+"%'";
+					int affected = stmt.executeUpdate(sql);
+					if(affected > 0)
+					{
+						System.out.println("successfully delete "+ key);
+					} else {
+						System.out.println("employee last name was not found");
+					}
+				} catch (SQLException e) {
+					
+					System.out.print("this employee can't be remove ");
+					System.out.print("we don't want our client to be remove, returning to main application...");
+					
+				}
+			}
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
     		
+    		System.out.print("enter a purchase id that you want to remove ");
+    		int key = kb.nextInt();
+    		
+    		String sql = "DELETE FROM `PURCHASE` WHERE `PURCHASE`.`p_id` = "+key;
+    		
+			try {
+				int affected = stmt.executeUpdate(sql);
+				if(affected > 0)
+				{
+					System.out.println("successfully delete "+ key);
+				} else {
+					System.out.println(key+ "was not found, returning to the main application");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+    		
     	} else //SHOES
     	{
-    		
+    		try 
+    		{
+    			System.out.print("press 1 to delete by shoes id and 2 to delete by brandName  || or press -1 to exit ");
+    			int option = kb.nextInt();
+    			
+    			if(option == -1) { return; }
+    			
+    			if(option == 1)
+    			{
+    				System.out.print("please enter shoes id to remove a specific shoe ");
+    				int key = kb.nextInt();
+    				try 
+    				{
+        				String sql = "DELETE FROM `SHOES` WHERE `SHOES`.`s_id` = "+key;
+        				int affected = stmt.executeUpdate(sql);
+        				if (affected > 0) {
+        					System.out.println("delete successful id" + key);
+        				} else {
+        					System.out.println("id doesn't exist on the table returning to the main app");
+        				}
+    				} catch (Exception e)
+    				{
+    					clearForeignKey("SELECT s_id FROM SHOES WHERE s_id ="+key,2);
+    					String sql = "DELETE FROM `SHOES` WHERE `SHOES`.`s_id` = "+key;
+        				int affected = stmt.executeUpdate(sql);
+        				if (affected > 0) {
+        					System.out.println("delete successful id" + key);
+        				} else {
+        					System.out.println("id doesn't exist on the table returning to the main app");
+        				}
+    				}
+    			}
+    			if(option == 2)
+    			{
+    				System.out.print("enter brand name to remove the shoe with that brand ");
+    				String brand = kb.next();
+    				try {
+        				String sql = "DELETE FROM SHOES WHERE s_brandName LIKE '%"+brand+"%'";
+        				int affected = stmt.executeUpdate(sql);
+        				if (affected > 0) {
+        					System.out.println("delete successful" + brand);
+        				} else {
+        					System.out.println("id doesn't exist on the table returning to the main app");
+        				}
+    				} catch (SQLException e)
+    				{
+    					clearForeignKey("SELECT s_id FROM SHOES WHERE s_brandName '%"+brand+"%'",2);
+    					String sql = "DELETE FROM SHOES WHERE s_brandName LIKE '%"+brand+"%'";
+        				int affected = stmt.executeUpdate(sql);
+        				if (affected > 0) {
+        					System.out.println("delete successful" + brand);
+        				} else {
+        					System.out.println("id doesn't exist on the table returning to the main app");
+        				}
+    				}
+    			}
+    		}
+    		catch (SQLException e)
+    		{
+    			e.printStackTrace();
+    		}
     	}
     }
     
@@ -246,13 +490,13 @@ public class App
 				ResultSet rs = stmt.executeQuery(sql);
 				
 				System.out.println("---------------------------------------------------------------------------------------------------");
-			    System.out.printf("%10s %10s %10s %10s %10s %10s %10s", "c_id", "c_fName", "c_lName", "# Shoes", "day_joined","c_loyal" ,"e_id");
+			    System.out.printf("%10s %10s %10s %10s %20s %10s %10s", "c_id", "c_fName", "c_lName", "# Shoes", "day_joined","c_loyal" ,"e_id");
 			    System.out.println();
 			    System.out.println("---------------------------------------------------------------------------------------------------");
 				while(rs.next()) 
 				{
 					
-					System.out.format("%10s %10s %10s %10s %10s %10s %10s",
+					System.out.format("%10s %10s %10s %10s %20s %10s %10s",
 							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
 							rs.getObject(4).toString(),rs.getObject(5).toString(),rs.getObject(6).toString(),
 							rs.getObject(7).toString());
@@ -292,10 +536,54 @@ public class App
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
+    		String sql = "SELECT * FROM PURCHASE";
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("---------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %10s %10s %10s %10s", "p_id", "c_id", "s_id", "p_dayPurchase", "p_returned");
+			    System.out.println();
+			    System.out.println("---------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %10s %10s %10s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString());
+					
+					System.out.println();
+				}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+    		
     		
     	} else //SHOES
     	{
-    		
+    		String sql = "SELECT * FROM SHOES";
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("---------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %10s %10s %20s %10s", "s_id", "s_quantity", "s_rate", "s_brandName", "s_price");
+			    System.out.println();
+			    System.out.println("---------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %10s %10s %20s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString());
+					
+					System.out.println();
+				}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
     	}
     }
     
@@ -316,5 +604,42 @@ public class App
     	{
     		
     	}
+    }
+
+    public static void clearForeignKey(String sql) throws SQLException
+    {
+    	System.out.print("do you want to clear this id out of the whole system? press 1 to cont and -1 to exit ");
+		int del = kb.nextInt();
+		if(del == -1) { return; }
+		
+		rs = stmt.executeQuery(sql);
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		while(rs.next())
+		{
+			arr.add(rs.getInt(1));
+		}
+		for(int i=0;i<arr.size();i++)
+		{
+			String remove = "DELETE FROM `PURCHASE` WHERE `PURCHASE`.`c_id` = "+arr.get(i);
+			stmt.executeUpdate(remove);
+		}
+    }
+    public static void clearForeignKey(String sql, int a) throws SQLException
+    {
+    	System.out.print("do you want to clear this id out of the whole system? press 1 to cont and -1 to exit ");
+		int del = kb.nextInt();
+		if(del == -1) { return; }
+		
+		rs = stmt.executeQuery(sql);
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		while(rs.next())
+		{
+			arr.add(rs.getInt(1));
+		}
+		for(int i=0;i<arr.size();i++)
+		{
+			String remove = "DELETE FROM `PURCHASE` WHERE `PURCHASE`.`s_id` = "+arr.get(i);
+			stmt.executeUpdate(remove);
+		}
     }
 }
