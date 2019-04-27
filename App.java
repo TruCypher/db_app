@@ -59,7 +59,7 @@ public class App
     		   System.out.println("3. Delete");
     		   System.out.println("4. Display all data");
     		   System.out.println("5. Search");
-    		   System.out.println("6. Skip This Step");
+    		   System.out.println("6. change table");
     		   
     		   int option = kb.nextInt();
     		   System.out.println();
@@ -205,18 +205,341 @@ public class App
     {
     	if(table.equals("CLIENT"))
     	{
+    		System.out.println("press 1 to update client by id");
+    		System.out.println("press 2 to update client by client's fisrt name");
+    		System.out.println("press 3 to update client by client's last name");
+    		System.out.println("Or press -1 to exit...");
+    		int option = kb.nextInt();
     		
+    		if(option == -1) {return;}
+    		
+    		if(option == 1)
+    		{
+    			System.out.print("please enter client's id you want to update ");
+    			int key = kb.nextInt();
+    			
+    			System.out.print("please enter client's first name you want to change ");
+    			String fName = kb.next();
+    			System.out.print("please enter client's last name you want to change ");
+    			String lName = kb.next();
+    			System.out.print("please enter client's # of shoes you want to change ");
+    			int shoes = kb.nextInt();
+    			System.out.print("please enter client's loyalty you want to change format: (1-10) ");
+    			int loyal = kb.nextInt();
+    			System.out.print("please enter employee incharge of this client you want to change ");
+    			int e_id = kb.nextInt();
+    			
+    			//dayjoined is static can't change nor update
+    			String sql = "UPDATE CLIENT SET "+
+    			"c_fName='"+fName+"',c_lName='"+lName+"',c_numShoes="+shoes+",c_loyal="+loyal+",e_id="+e_id+
+    			" WHERE c_id="+key;
+    			
+    			System.out.println();
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update id "+key);
+        			} else {
+        				System.out.println("client id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("the employee you trying to update is not exist in our database");
+    				System.out.println("returning to the main application");
+    			}
+    		}
+    		if(option == 2)
+    		{
+    			System.out.print("please enter client's first name you want to UPDATE ");
+    			String key = kb.next();
+    			
+    			System.out.print("please enter client's first name you want to change ");
+    			String fName = kb.next();
+    			System.out.print("please enter client's last name you want to change ");
+    			String lName = kb.next();
+    			System.out.print("please enter client's # of shoes you want to change ");
+    			int shoes = kb.nextInt();
+    			System.out.print("please enter client's loyalty you want to change format: (1-10) ");
+    			int loyal = kb.nextInt();
+    			System.out.print("please enter employee incharge of this client you want to change ");
+    			int e_id = kb.nextInt();
+    			
+    			//dayjoined is static can't change nor update
+    			String sql = "UPDATE CLIENT SET "+
+    			"c_fName='"+fName+"',c_lName='"+lName+"',c_numShoes="+shoes+",c_loyal="+loyal+",e_id="+e_id+
+    			" WHERE c_fName LIKE '%"+key+"%'";
+    			
+    			System.out.println();
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update first1 "+key);
+        			} else {
+        				System.out.println("client id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("the employee you trying to update is not exist in our database");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
+    		if(option == 3)
+    		{
+    			System.out.print("please enter client's last name you want to UPDATE ");
+    			String key = kb.next();
+    			
+    			System.out.print("please enter client's first name you want to change ");
+    			String fName = kb.next();
+    			System.out.print("please enter client's last name you want to change ");
+    			String lName = kb.next();
+    			System.out.print("please enter client's # of shoes you want to change ");
+    			int shoes = kb.nextInt();
+    			System.out.print("please enter client's loyalty you want to change format: (1-10) ");
+    			int loyal = kb.nextInt();
+    			System.out.print("please enter employee incharge of this client you want to change ");
+    			int e_id = kb.nextInt();
+    			
+    			//dayjoined is static can't change nor update
+    			String sql = "UPDATE CLIENT SET "+
+    			"c_fName='"+fName+"',c_lName='"+lName+"',c_numShoes="+shoes+",c_loyal="+loyal+",e_id="+e_id+
+    			" WHERE c_lName LIKE '%"+key+"%'";
+    			
+    			System.out.println();
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update last "+key);
+        			} else {
+        				System.out.println("client id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("the employee you trying to update is not exist in our database");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
     	} 
     	else if (table.equals("EMPLOYEE")) 
     	{
+    		System.out.println("press 1 to update client by id");
+    		System.out.println("press 2 to update client by client's fisrt name");
+    		System.out.println("press 3 to update client by client's last name");
+    		System.out.println("Or press -1 to exit...");
+    		int option = kb.nextInt();
+    		
+    		if(option == 1)
+    		{
+    			System.out.print("please enter employee's id you want to UPDATE ");
+    			int key = kb.nextInt();
+    			
+    			System.out.print("please enter employee's first name you want to update ");
+    			String fName = kb.next();
+    			System.out.print("please enter employee's last name you want to update ");
+    			String lName = kb.next();
+    			System.out.print("please enter employee's rank to update ");
+    			String rank = kb.next();
+    			
+    			String sql = "UPDATE EMPLOYEE SET "+
+    			"e_fName='"+fName+"',e_lName='"+lName+"',e_rank='"+rank+"'"+
+    			" WHERE e_id="+ key;
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update id "+key);
+        			} else {
+        				System.out.println("employee id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("unexpected sql error");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
+    		if(option == 2)
+    		{
+    			System.out.print("please enter employee's first name you want to UPDATE ");
+    			String key = kb.next();
+    			
+    			System.out.print("please enter employee's first name you want to update ");
+    			String fName = kb.next();
+    			System.out.print("please enter employee's last name you want to update ");
+    			String lName = kb.next();
+    			System.out.print("please enter employee's rank to update ");
+    			String rank = kb.next();
+    			
+    			String sql = "UPDATE EMPLOYEE SET "+
+    			"e_fName='"+fName+"',e_lName='"+lName+"',e_rank='"+rank+"'"+
+    			" WHERE e_fName LIKE '%"+ key+"%'";
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update fName: "+key);
+        			} else {
+        				System.out.println("employee id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("unexpected sql error");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
+    		if(option == 3) 
+    		{
+    			System.out.print("please enter employee's last name you want to UPDATE ");
+    			String key = kb.next();
+    			
+    			System.out.print("please enter employee's first name you want to update ");
+    			String fName = kb.next();
+    			System.out.print("please enter employee's last name you want to update ");
+    			String lName = kb.next();
+    			System.out.print("please enter employee's rank to update ");
+    			String rank = kb.next();
+    			
+    			String sql = "UPDATE EMPLOYEE SET "+
+    			"e_fName='"+fName+"',e_lName='"+lName+"',e_rank='"+rank+"'"+
+    			" WHERE e_lName LIKE '%"+ key+"%'";
+    			
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update lName: "+key);
+        			} else {
+        				System.out.println("employee id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("unexpected sql error");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
     		
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
     		
+    		System.out.print("please enter purchase's id you want to change ");
+    		int key = kb.nextInt();
+    		
+    		//only let the user chagne the return
+    		//client's purchase history and day purchase always remain the same
+    		System.out.println("please specify whether the client returned or not");
+    		String returned = kb.next();
+    		
+    		String sql = "UPDATE `PURCHASE` SET `p_return` = '"+returned+"' WHERE `PURCHASE`.`p_id` ="+key;
+    		try 
+			{
+				int affected = stmt.executeUpdate(sql);
+    			if(affected > 0)
+    			{
+    				System.out.println("successfully update return status");
+    				System.out.println("returning to the main application");
+    			} else {
+    				System.out.println("purchase id was not found, returning to the main application");
+    			}
+			} catch (SQLException e)
+			{
+				System.out.println("unexpected sql error");
+				System.out.println("returning to the main application");
+				e.printStackTrace();
+			}
+    		
     	} else //SHOES
     	{
+    		System.out.println("press 1 to update shoes from shoes id");
+    		System.out.println("press 2 to update shoes from brandName");
+    		System.out.println("press -1 to exit");
+    		int option = kb.nextInt();
     		
+    		if(option == 1)
+    		{
+    			System.out.println("please enter shoes id to you want to chagne ");
+    			int key = kb.nextInt();
+    			
+    			System.out.print("please enter quanity: ");
+    			int quan = kb.nextInt();
+    			System.out.print("please enter rating format(1-10): ");
+    			int rate = kb.nextInt();
+    			System.out.print("please enter brand name: ");
+    			String brand = kb.next();
+    			System.out.print("please enter price: ");
+    			double price = kb.nextDouble();
+    			
+    			String sql = "UPDATE SHOES SET "+
+    			"s_quantity="+quan+",s_rate="+rate+",s_brandName='"+brand+"',s_price="+price+" "+
+    					"WHERE s_id="+key;
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update shoes id: "+key);
+        				System.out.println("returning to the main application");
+        			} else {
+        				System.out.println("shoes id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("unexpected sql error");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
+    		if(option == 2)
+    		{
+    			System.out.println("please enter shoes's brand name to you want to chagne ");
+    			String key = kb.next();
+    			
+    			System.out.print("please enter quanity: ");
+    			int quan = kb.nextInt();
+    			System.out.print("please enter rating format(1-10): ");
+    			int rate = kb.nextInt();
+    			System.out.print("please enter brand name: ");
+    			String brand = kb.next();
+    			System.out.print("please enter price: ");
+    			double price = kb.nextDouble();
+    			
+    			String sql = "UPDATE SHOES SET "+
+    			"s_quantity="+quan+",s_rate="+rate+",s_brandName='"+brand+"',s_price="+price+" "+
+    					"WHERE s_brandName LIKE '%"+key+"%'";
+    			try 
+    			{
+    				int affected = stmt.executeUpdate(sql);
+        			if(affected > 0)
+        			{
+        				System.out.println("successfully update shoes's brandName: "+key);
+        				System.out.println("returning to the main application");
+        			} else {
+        				System.out.println("shoes id was not found, returning to the main application");
+        			}
+    			} catch (SQLException e)
+    			{
+    				System.out.println("unexpected sql error");
+    				System.out.println("returning to the main application");
+    				e.printStackTrace();
+    			}
+    		}
     	}
     }
     
@@ -504,6 +827,9 @@ public class App
 					System.out.println();
 				}
 				
+				System.out.println();
+				System.out.println("returning to the main application");
+				
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -528,6 +854,8 @@ public class App
 					
 					System.out.println();
 				}
+				System.out.println();
+				System.out.println("returning to the main application");
 				
 			} catch (SQLException e) {
 				
@@ -553,7 +881,8 @@ public class App
 					
 					System.out.println();
 				}
-				
+				System.out.println();
+				System.out.println("returning to the main application");
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -579,7 +908,8 @@ public class App
 					
 					System.out.println();
 				}
-				
+				System.out.println();
+				System.out.println("returning to the main application");
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -591,6 +921,9 @@ public class App
     {
     	if(table.equals("CLIENT"))
     	{
+    		System.out.println("enter client id to get all info about that client ");
+    		int key = kb.nextInt();
+    		
     		
     	} 
     	else if (table.equals("EMPLOYEE")) 
