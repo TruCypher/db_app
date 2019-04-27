@@ -921,20 +921,149 @@ public class App
     {
     	if(table.equals("CLIENT"))
     	{
-    		System.out.println("enter client id to get all info about that client ");
+    		System.out.print("enter client id to get all info about that client ");
     		int key = kb.nextInt();
     		
+    		String sql = "SELECT * FROM CLIENT " + 
+    				"INNER JOIN PURCHASE ON CLIENT.c_id = PURCHASE.c_id " + 
+    				"INNER JOIN SHOES ON PURCHASE.s_id = SHOES.s_id " +
+    				"WHERE CLIENT.c_id ="+key;
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s %10s %10s %10s %10s", "c_id", "c_fName", "c_lName", "# Shoes", "day_joined","c_loyal" ,"e_id","p_id","s_id","dayPurchase","p_returned","s_quantity","s_rate","s_brandName","s_price");
+			    System.out.println();
+			    System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s %10s %10s %10s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString(),rs.getObject(6).toString(),
+							rs.getObject(7).toString(),rs.getObject(8).toString(),
+							rs.getObject(10).toString(),rs.getObject(11).toString(),rs.getObject(12).toString(),
+							rs.getObject(13).toString(),rs.getObject(15).toString(),
+							rs.getObject(16).toString(),rs.getObject(17).toString(),rs.getObject(12).toString());
+					
+					System.out.println();
+				}
+				
+				System.out.println();
+				System.out.println("returning to the main application");
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
     		
     	} 
     	else if (table.equals("EMPLOYEE")) 
     	{
+    		System.out.print("please enter employee id to get all info about the employee ");
+    		int key = kb.nextInt();
+    		
+    		String sql = "SELECT * FROM EMPLOYEE " + 
+    				"INNER JOIN CLIENT ON EMPLOYEE.e_id = CLIENT.e_id " + 
+    				"WHERE EMPLOYEE.e_id = "+key;
+    		
+    		try {
+    			
+			ResultSet rs = stmt.executeQuery(sql);
+    		
+			System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		    System.out.printf("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s", "e_id", "e_fName", "e_lName", "e_rank", "c_id","c_fName" ,"c_lName","c_#shoes","c_dayJoined","c_loyal","e_id");
+		    System.out.println();
+		    System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+			while(rs.next()) 
+			{
+				
+				System.out.format("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s",
+						rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+						rs.getObject(4).toString(),rs.getObject(5).toString(),rs.getObject(6).toString(),
+						rs.getObject(7).toString(),rs.getObject(8).toString(),
+						rs.getObject(9).toString(),rs.getObject(10).toString(),rs.getObject(11).toString());
+				
+				System.out.println();
+			}
+			
+			System.out.println();
+			System.out.println("returning to the main application");
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
     		
     	} 
     	else if (table.equals("PURCHASE")) 
     	{
     		
+    		System.out.print("please enter purchase id you want to track ");
+    		int key = kb.nextInt();
+    		
+    		String sql = "SELECT * FROM PURCHASE " + 
+    				"INNER JOIN CLIENT ON PURCHASE.c_id = CLIENT.c_id " + 
+    				"INNER JOIN SHOES ON PURCHASE.s_id = SHOES.s_id " +
+    				"WHERE PURCHASE.p_id = "+key;
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s %10s %10s %10s %10s %10s %10s", "p_id", "c_id", "s_id", "p_dayPurchase", "p_return","c_id" ,"c_fName","c_lName","c_#shoes","c_dayjoined","c_loyal","e_id","s_id","s_quantity","s_rate","s_brandName","s_price");
+			    System.out.println();
+			    System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %10s %10s %10s %20s %10s %10s %10s %10s %20s %20s %10s %10s %10s %10s %10s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString(),rs.getObject(6).toString(),
+							rs.getObject(7).toString(),rs.getObject(8).toString(),rs.getObject(9).toString(),
+							rs.getObject(10).toString(),rs.getObject(11).toString(),rs.getObject(12).toString(),
+							rs.getObject(13).toString(),rs.getObject(14).toString(),rs.getObject(15).toString(),
+							rs.getObject(16).toString(),rs.getObject(17).toString());
+					
+					System.out.println();
+				}
+				
+				System.out.println();
+				System.out.println("returning to the main application");
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+    		
     	} else //SHOES
     	{
+    		System.out.print("please enter shoes id to find the shoes you wanted ");
+    		int key = kb.nextInt();
+    		
+    		String sql = "SELECT * FROM SHOES WHERE s_id = "+key;
+    		
+    		try {
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				System.out.println("---------------------------------------------------------------------------------------------------");
+			    System.out.printf("%10s %20s %10s %20s %10s", "s_id", "s_quantity", "s_rate", "s_brandName", "s_price");
+			    System.out.println();
+			    System.out.println("---------------------------------------------------------------------------------------------------");
+				while(rs.next()) 
+				{
+					
+					System.out.format("%10s %20s %10s %20s %10s",
+							rs.getObject(1).toString(),rs.getObject(2).toString(),rs.getObject(3).toString(),
+							rs.getObject(4).toString(),rs.getObject(5).toString());
+					
+					System.out.println();
+				}
+				System.out.println();
+				System.out.println("returning to the main application");
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
     		
     	}
     }
